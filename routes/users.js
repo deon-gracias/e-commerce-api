@@ -5,7 +5,7 @@ const {
   signUp,
 } = require("../controllers/users.controller");
 
-const router = require("express").router;
+const router = require("express").Router();
 
 // Get all users
 router.get("/", getAllUsers);
