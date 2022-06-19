@@ -5,7 +5,12 @@
   "scripts": {
     "start": "node ./bin/www",
     "test": "jest --watchAll --verbose",
-    "dev": "nodemon ./bin/www"
+    "dev": "nodemon ./bin/www",
+    "dev:up": "docker compose up",
+    "dev:down": "docker compose down",
+    "db:dev:up": "docker compose up mongodb",
+    "db:dev:down": "docker compose down mongodb",
+    "db:dev:rm": "docker compose rm mongodb"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
