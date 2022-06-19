@@ -21,6 +21,7 @@ services:
       - 27017:27017
     volumes:
       - data:/data/db
+    command: mongod --quiet --logpath /dev/null
 
 volumes:
   data:
