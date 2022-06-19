@@ -1,0 +1,19 @@
+body {
+  padding: 50px;
+  font: 1rem "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00b7ff;
+}
+
+.paths__item {
+  margin: 0.5rem 0;
+  align-items: center;
+}
+
+.paths__item code {
+  background-color: #dedede;
+  padding: 0.2rem 0.5rem;
+  border-radius: 5px;
+}
