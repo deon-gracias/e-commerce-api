@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "test": "jest --watchAll",
+    "test": "jest --watchAll --verbose",
     "dev": "nodemon ./bin/www"
   },
   "dependencies": {
