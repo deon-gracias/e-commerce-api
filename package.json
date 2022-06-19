@@ -11,10 +11,11 @@
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "~4.16.1",
-    "joi": "^17.6.0",
+    "http-errors": "^2.0.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.4.0",
-    "morgan": "~1.9.1"
+    "morgan": "~1.9.1",
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "jest": "^28.1.1",
