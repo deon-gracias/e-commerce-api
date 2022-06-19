@@ -1,0 +1,16 @@
+version: '3.4'
+
+services:
+  ecommerceapi:
+    image: ecommerceapi
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_ENV: development
+    ports:
+      - 5000:5000
+      - 9229:9229
+    volumes:
+      - .:/usr/src/app
+    command: ["node", "--inspect=0.0.0.0:9229", "./bin/www"]
