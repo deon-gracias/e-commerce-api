@@ -41,6 +41,18 @@ describe("User", () => {
     );
   });
 
+  // Should get user by profile
+  it("should get user by profile", async () => {
+    const res = await request(app)
+      .get("/users/profile")
+      .set("Authorization", `Bearer ${createdUser.accessToken}`)
+      .expect("Content-Type", /json/)
+      .expect(200);
+
+    const { accessToken, ...filteredUser } = createdUser;
+    expect(res.body).toEqual(expect.objectContaining(filteredUser));
+  });
+
   // Should delete user
   it("should delete user", async () => {
     const res = await request(app)
