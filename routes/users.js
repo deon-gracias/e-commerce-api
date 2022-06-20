@@ -1,9 +1,9 @@
 const {
   getAllUsers,
-  getUserById,
   getUserByEmail,
   signIn,
   signUp,
+  signOut,
   deleteUser,
   getNewAccessToken,
 } = require("../controllers/users.controller");
@@ -25,6 +25,9 @@ router.post("/signup", signUp);
 
 // Sign in
 router.post("/signin", signIn);
+
+// Sign out
+router.get("/signout", isAuth, signOut);
 
 // Get new access token
 router.post("/token", getNewAccessToken);

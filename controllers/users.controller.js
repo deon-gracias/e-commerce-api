@@ -121,6 +121,20 @@ async function signUp(req, res, next) {
 }
 
 /**
+ * Sign Out
+ */
+async function signOut(req, res, next) {
+  const user = await User.findOneAndUpdate(
+    { email: req.user.email },
+    { $unset: { refreshToken: "" } }
+  );
+
+  if (!user) return next(createError(404, "User Not Found"));
+
+  return res.status(200).send({ message: "Successfully signed out" });
+}
+
+/**
  * Regenerate Access Token
  */
 async function getNewAccessToken(req, res, next) {
@@ -136,11 +150,9 @@ async function getNewAccessToken(req, res, next) {
   if (user.refreshToken !== refreshToken)
     return next(createError(403, "Invalid Refresh Token"));
 
-  return res
-    .status(200)
-    .send({
-      accessToken: generateAccessToken({ name: user.name, email: user.email }),
-    });
+  return res.status(200).send({
+    accessToken: generateAccessToken({ name: user.name, email: user.email }),
+  });
 }
 
 module.exports = {
@@ -149,6 +161,7 @@ module.exports = {
   getUserByEmail,
   signIn,
   signUp,
+  signOut,
   deleteUser,
   getNewAccessToken,
 };

@@ -73,8 +73,25 @@ describe("User", () => {
       .expect("Content-Type", /json/)
       .expect(200);
 
-    return expect(res.body).toEqual(
+    expect(res.body).toEqual(
       expect.objectContaining({ accessToken: expect.any(String) })
+    );
+
+    createdUser.accessToken = res.body.accessToken;
+  });
+
+  // Should sign out
+  it("should sign out", async () => {
+    const res = await request(app)
+      .get("/users/signout")
+      .set("Authorization", `Bearer ${createdUser.accessToken}`)
+      .expect("Content-Type", /json/)
+      .expect(200);
+
+    return expect(res.body).toEqual(
+      expect.objectContaining({
+        message: expect.any(String),
+      })
     );
   });
 
