@@ -3,8 +3,10 @@ const {
   getUserById,
   signIn,
   signUp,
-  deleteUserById,
+  deleteUser,
+  getNewAccessToken,
 } = require("../controllers/users.controller");
+const { isAuth } = require("../lib/auth");
 
 const router = require("express").Router();
 
@@ -14,13 +16,16 @@ router.get("/", getAllUsers);
 // Get user by id
 router.get("/:id", getUserById);
 
-// TODO: Need to add authentication middleware
-router.delete("/delete", deleteUserById);
+// Delete user
+router.delete("/delete", isAuth, deleteUser);
 
 // Sign up
 router.post("/signup", signUp);
 
 // Sign in
 router.post("/signin", signIn);
+
+// Sign in
+router.post("/token", getNewAccessToken);
 
 module.exports = router;

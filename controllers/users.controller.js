@@ -24,12 +24,12 @@ async function getUserById(req, res, next) {
 }
 
 /**
- * Delete user by id
+ * Delete user by email
  */
-async function deleteUserById(req, res, next) {
-  const user = await User.findByIdAndDelete(req.body._id);
+async function deleteUser(req, res, next) {
+  const user = await User.findOneAndDelete({ email: req.user.email });
 
-  if (!user) return next(createError(404, "User id not found"));
+  if (!user) return next(createError(404, "User not found"));
 
   delete user.password;
   return res.status(200).send(user);
@@ -90,4 +90,20 @@ async function signUp(req, res, next) {
   });
 }
 
-module.exports = { getAllUsers, getUserById, signIn, signUp, deleteUserById };
+/**
+ * Regenerate Access Token
+ */
+async function getNewAccessToken(req, res, next) {
+  const refreshToken = req.body.refreshToken;
+
+  if (refreshToken) return next(createError(400, "Refresh Token not provided"));
+}
+
+module.exports = {
+  getAllUsers,
+  getUserById,
+  signIn,
+  signUp,
+  deleteUser,
+  getNewAccessToken,
+};
