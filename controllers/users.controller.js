@@ -12,7 +12,7 @@ async function getUserById(req, res, next) {
 
   if (!user) return next(createError(404, "User id not found"));
 
-  delete user.password;
+ delete user.password;
   return res.status(201).send(user);
 }
 
@@ -25,13 +25,14 @@ async function deleteUserById(req, res, next) {
 async function signIn(req, res, next) {}
 
 async function signUp(req, res, next) {
-  const user = new User({
+  const user = await User.findOne({ email: req.body.email });
+  if (user) return next(createError(404, "User already exists"));
+
+  const createdUser = await new User({
     name: req.body.name,
     email: req.body.email,
     password: req.body.password,
-  });
-
-  const createdUser = await user.save();
+  }).save();
 
   return res.status(201).send({
     _id: createdUser._id,
