@@ -36,6 +36,7 @@ describe("User", () => {
         name: expect.any(String),
         email: expect.any(String),
         accessToken: expect.any(String),
+        refreshToken: expect.any(String),
       })
     );
   });

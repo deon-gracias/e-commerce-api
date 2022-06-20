@@ -16,6 +16,9 @@ const userSchema = new Schema(
       required: true,
       minLength: [4, "Password should be at least four characters"],
     },
+    refreshToken: {
+      type: String,
+    },
   },
   { timestamps: true }
 );
