@@ -53,6 +53,15 @@ describe("User", () => {
     expect(res.body).toEqual(expect.objectContaining(filteredUser));
   });
 
+  // Shouldn't get user by profile (because invalid token is passed)
+  it("should not get user by profile", async () => {
+    return await request(app)
+      .get("/users/profile")
+      .set("Authorization", `Bearer abcdefg`)
+      .expect("Content-Type", /html/)
+      .expect(403);
+  });
+
   // Refresh Access Token
   it("should give a new access token", async () => {
     const res = await request(app)
