@@ -2,12 +2,18 @@ const createError = require("http-errors");
 const { generateToken } = require("../lib/auth");
 const User = require("../models/userModel");
 
+/**
+ * Get all users
+ */
 async function getAllUsers(req, res, next) {
   const users = await User.find({});
 
   return res.status(200).json(users);
 }
 
+/**
+ * Get user by id
+ */
 async function getUserById(req, res, next) {
   const user = await User.findById(req.params.id);
 
@@ -17,6 +23,9 @@ async function getUserById(req, res, next) {
   return res.status(201).send(user);
 }
 
+/**
+ * Delete user by id
+ */
 async function deleteUserById(req, res, next) {
   const user = await User.findByIdAndDelete(req.body._id);
 
@@ -26,6 +35,9 @@ async function deleteUserById(req, res, next) {
   return res.status(200).send(user);
 }
 
+/**
+ * Sign In
+ */
 async function signIn(req, res, next) {
   const user = await User.findOne({ email: req.body.email });
 
@@ -43,6 +55,9 @@ async function signIn(req, res, next) {
   });
 }
 
+/**
+ * Sign Up
+ */
 async function signUp(req, res, next) {
   const user = await User.findOne({ email: req.body.email });
   if (user) return next(createError(409, "User already exists"));
