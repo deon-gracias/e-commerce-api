@@ -53,6 +53,22 @@ describe("User", () => {
     expect(res.body).toEqual(expect.objectContaining(filteredUser));
   });
 
+  // Refresh Access Token
+  it("should give a new access token", async () => {
+    const res = await request(app)
+      .post("/users/token")
+      .send({
+        refreshToken: createdUser.refreshToken,
+        email: createdUser.email,
+      })
+      .expect("Content-Type", /json/)
+      .expect(200);
+
+    return expect(res.body).toEqual(
+      expect.objectContaining({ accessToken: expect.any(String) })
+    );
+  });
+
   // Should delete user
   it("should delete user", async () => {
     const res = await request(app)
