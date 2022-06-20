@@ -3,6 +3,7 @@ const {
   getUserById,
   signIn,
   signUp,
+  deleteUserById,
 } = require("../controllers/users.controller");
 
 const router = require("express").Router();
@@ -12,6 +13,9 @@ router.get("/", getAllUsers);
 
 // Get user by id
 router.get("/:id", getUserById);
+
+// TODO: Need to add authentication middleware
+router.delete("/", deleteUserById);
 
 // Sign up
 router.post("/signup", signUp);
