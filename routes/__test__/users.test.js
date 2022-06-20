@@ -58,7 +58,6 @@ describe("User", () => {
 
   // Should delete user
   it("should delete user", async () => {
-    console.log(createdUser)
     const res = await request(app)
       .delete("/users/delete")
       .send(createdUser)
