@@ -83,22 +83,22 @@ async function signUp(req, res, next) {
     password: req.body.password,
   }).save();
 
-  // Delete password field
-  delete user.password;
-
   // Generate Tokens
   const tokenData = {
-      name: user.name,
-      email: user.email,
+      name: createdUser.name,
+      email: createdUser.email,
     },
     accessToken = generateAccessToken(tokenData),
     refreshToken = generateRefreshToken(tokenData);
 
   // Save refresh token in user document
-  user.refreshToken = refreshToken;
+  createdUser.refreshToken = refreshToken;
+  await createdUser.save();
+
+  delete createdUser.password; // Delete password field
 
   return res.status(201).send({
-    ...user.toObject({ versionKey: false }),
+    ...createdUser.toObject({ versionKey: false }),
     accessToken: accessToken,
     refreshToken: refreshToken,
   });
@@ -110,8 +110,17 @@ async function signUp(req, res, next) {
 async function getNewAccessToken(req, res, next) {
   const refreshToken = req.body.refreshToken;
 
-  if (!refreshToken) return next(createError(401, "Refresh Token not provided"));
+  if (!refreshToken || !req.body.email)
+    return next(createError(400, "Insuffiecient credentials provided"));
 
+  const user = await User.findOne({ email: req.body.email });
+
+  if (!user) return next(createError(404, "User Not Found"));
+
+  if (!user.refreshToken !== refreshToken)
+    return next(createError(403, "Invalid Refresh Token"));
+
+  return res.status(200).send({ accessToken: generateAccessToken(tokenData) });
 }
 
 module.exports = {
