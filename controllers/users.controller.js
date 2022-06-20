@@ -41,7 +41,13 @@ async function deleteUserById(req, res, next) {
 async function signIn(req, res, next) {
   const user = await User.findOne({ email: req.body.email });
 
-  if (!user) return next(createError(401, "Invalid User Credentials"));
+  // Check if user is found and password is passed in request
+  if (!user || !req.body.password)
+    return next(createError(400, "User Credentials not provided"));
+
+  // Compare passwords
+  if (!(await user.comparePassword(req.body.password)))
+    return next(createError(401, "Invalid user credentials"));
 
   delete user.password;
   return res.status(200).send({
