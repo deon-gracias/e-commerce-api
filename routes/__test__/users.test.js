@@ -35,7 +35,7 @@ describe("User", () => {
       expect.objectContaining({
         name: expect.any(String),
         email: expect.any(String),
-        token: expect.any(String),
+        accessToken: expect.any(String),
       })
     );
   });
