@@ -45,7 +45,7 @@ async function signIn(req, res, next) {
 
 async function signUp(req, res, next) {
   const user = await User.findOne({ email: req.body.email });
-  if (user) return next(createError(404, "User already exists"));
+  if (user) return next(createError(409, "User already exists"));
 
   const createdUser = await new User({
     name: req.body.name,
@@ -53,10 +53,13 @@ async function signUp(req, res, next) {
     password: req.body.password,
   }).save();
 
+  delete createdUser.password;
   return res.status(201).send({
-    _id: createdUser._id,
-    name: createdUser.name,
-    email: createdUser.email,
+    ...createdUser.toObject({ versionKey: false }),
+    token: generateToken({
+      name: createdUser.name,
+      email: createdUser.email,
+    }),
   });
 }
 
