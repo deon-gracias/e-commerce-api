@@ -11,7 +11,7 @@ const { isAuth } = require("../lib/auth");
 
 const router = require("express").Router();
 
-// Get all users
+// Get all users (debugging purposes)
 router.get("/", getAllUsers);
 
 // Profile
