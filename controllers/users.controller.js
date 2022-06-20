@@ -110,7 +110,8 @@ async function signUp(req, res, next) {
 async function getNewAccessToken(req, res, next) {
   const refreshToken = req.body.refreshToken;
 
-  if (refreshToken) return next(createError(400, "Refresh Token not provided"));
+  if (!refreshToken) return next(createError(401, "Refresh Token not provided"));
+
 }
 
 module.exports = {
