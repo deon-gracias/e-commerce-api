@@ -49,17 +49,24 @@ async function signIn(req, res, next) {
   if (!(await user.comparePassword(req.body.password)))
     return next(createError(401, "Invalid user credentials"));
 
+  // Delete password field
   delete user.password;
 
+  // Generate Tokens
   const tokenData = {
-    name: user.name,
-    email: user.email,
-  };
+      name: user.name,
+      email: user.email,
+    },
+    accessToken = generateAccessToken(tokenData),
+    refreshToken = generateRefreshToken(tokenData);
+
+  // Save refresh token in user document
+  user.refreshToken = refreshToken;
 
   return res.status(200).send({
     ...user.toObject({ versionKey: false }),
-    accessToken: generateAccessToken(tokenData),
-    refreshToken: generateRefreshToken(tokenData),
+    accessToken: accessToken,
+    refreshToken: refreshToken,
   });
 }
 
@@ -76,17 +83,24 @@ async function signUp(req, res, next) {
     password: req.body.password,
   }).save();
 
-  delete createdUser.password;
+  // Delete password field
+  delete user.password;
 
+  // Generate Tokens
   const tokenData = {
-    name: createdUser.name,
-    email: createdUser.email,
-  };
+      name: user.name,
+      email: user.email,
+    },
+    accessToken = generateAccessToken(tokenData),
+    refreshToken = generateRefreshToken(tokenData);
+
+  // Save refresh token in user document
+  user.refreshToken = refreshToken;
 
   return res.status(201).send({
-    ...createdUser.toObject({ versionKey: false }),
-    accessToken: generateAccessToken(tokenData),
-    refreshToken: generateRefreshToken(tokenData),
+    ...user.toObject({ versionKey: false }),
+    accessToken: accessToken,
+    refreshToken: refreshToken,
   });
 }
 
