@@ -1,6 +1,7 @@
 const {
   getAllUsers,
   getUserById,
+  getUserByEmail,
   signIn,
   signUp,
   deleteUser,
@@ -13,8 +14,8 @@ const router = require("express").Router();
 // Get all users
 router.get("/", getAllUsers);
 
-// Get user by id
-router.get("/:id", getUserById);
+// Profile
+router.get("/profile", isAuth, getUserByEmail);
 
 // Delete user
 router.delete("/delete", isAuth, deleteUser);
