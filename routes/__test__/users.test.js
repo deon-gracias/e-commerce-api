@@ -33,6 +33,22 @@ describe("User", () => {
 
     return expect(res.body).toEqual(
       expect.objectContaining({
+        name: expect.any(String),
+        email: expect.any(String),
+        token: expect.any(String),
+      })
+    );
+  });
+
+  // Should get created user
+  it("should get user by id", async () => {
+    const res = await request(app)
+      .get(`/users/${createdUser._id}`)
+      .expect("Content-Type", /json/)
+      .expect(201);
+
+    return expect(res.body).toEqual(
+      expect.objectContaining({
         _id: expect.any(String),
         name: expect.any(String),
         email: expect.any(String),
@@ -47,6 +63,12 @@ describe("User", () => {
       .send(createdUser)
       .expect("Content-Type", /json/);
 
-    return expect(res.body).toEqual(expect.objectContaining(createdUser));
+    return expect(res.body).toEqual(
+      expect.objectContaining({
+        _id: createdUser.id,
+        name: createdUser.name,
+        email: createdUser.email,
+      })
+    );
   });
 });
