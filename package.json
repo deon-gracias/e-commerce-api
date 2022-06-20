@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "test": "jest --watchAll --verbose",
+    "test": "jest --watchAll --verbose --detectOpenHandles",
     "dev": "nodemon ./bin/www",
     "test:up": "docker compose up ecommerceapi-test mongodb-test",
     "test:down": "docker compose down ecommerceapi-test mongodb-test",
