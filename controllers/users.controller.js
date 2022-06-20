@@ -1,5 +1,5 @@
 const createError = require("http-errors");
-const { generateToken } = require("../lib/auth");
+const { generateAccessToken } = require("../lib/auth");
 const User = require("../models/userModel");
 
 /**
@@ -43,12 +43,10 @@ async function signIn(req, res, next) {
 
   if (!user) return next(createError(401, "Invalid User Credentials"));
 
-  console.log(user);
-
   delete user.password;
   return res.status(200).send({
     ...user.toObject({ versionKey: false }),
-    token: generateToken({
+    accessToken: generateAccessToken({
       name: user.name,
       email: user.email,
     }),
@@ -71,7 +69,7 @@ async function signUp(req, res, next) {
   delete createdUser.password;
   return res.status(201).send({
     ...createdUser.toObject({ versionKey: false }),
-    token: generateToken({
+    accessToken: generateAccessToken({
       name: createdUser.name,
       email: createdUser.email,
     }),
