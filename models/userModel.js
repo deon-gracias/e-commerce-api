@@ -1,5 +1,6 @@
 const { Schema, model } = require("mongoose");
 const validator = require("validator");
+const bcrypt = require("bcrypt");
 
 const userSchema = new Schema(
   {
@@ -18,6 +19,23 @@ const userSchema = new Schema(
   },
   { timestamps: true }
 );
+
+userSchema.pre("save", async function (next) {
+  // Make sure you don't hash the hash
+  if (!this.isModified("password")) return next();
+
+  bcrypt.hash(this.password, process.env.SALT_FACTOR || 10, (err, hash) => {
+    if (err) return next(err);
+    this.password = hash;
+  });
+});
+
+userSchema.methods.comparePassword = function (password, next) {
+  bcrypt.compare(password, this.password, function (err, isMatch) {
+    if (err) return next(err, null);
+    next(null, isMatch);
+  });
+};
 
 const User = model("User", userSchema);
 
