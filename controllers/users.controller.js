@@ -136,7 +136,11 @@ async function getNewAccessToken(req, res, next) {
   if (user.refreshToken !== refreshToken)
     return next(createError(403, "Invalid Refresh Token"));
 
-  return res.status(200).send({ accessToken: generateAccessToken(tokenData) });
+  return res
+    .status(200)
+    .send({
+      accessToken: generateAccessToken({ name: user.name, email: user.email }),
+    });
 }
 
 module.exports = {
