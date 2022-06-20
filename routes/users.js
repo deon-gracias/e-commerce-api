@@ -15,7 +15,7 @@ router.get("/", getAllUsers);
 router.get("/:id", getUserById);
 
 // TODO: Need to add authentication middleware
-router.delete("/", deleteUserById);
+router.delete("/delete", deleteUserById);
 
 // Sign up
 router.post("/signup", signUp);
