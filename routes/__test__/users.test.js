@@ -58,6 +58,7 @@ describe("User", () => {
 
   // Should delete user
   it("should delete user", async () => {
+    console.log(createdUser)
     const res = await request(app)
       .delete("/users/delete")
       .send(createdUser)
@@ -65,7 +66,7 @@ describe("User", () => {
 
     return expect(res.body).toEqual(
       expect.objectContaining({
-        _id: createdUser.id,
+        _id: createdUser._id,
         name: createdUser.name,
         email: createdUser.email,
       })
