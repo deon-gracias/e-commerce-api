@@ -15,7 +15,6 @@ async function getAllUsers(req, res, next) {
  * Get user by id
  */
 async function getUserById(req, res, next) {
-  
   const user = await User.findById(req.params.id);
 
   if (!user) return next(createError(404, "User id not found"));
@@ -28,11 +27,7 @@ async function getUserById(req, res, next) {
  * Get user by email
  */
 async function getUserByEmail(req, res, next) {
-  console.log("Email", req.user);
-
   const user = await User.findOne({ email: req.user.email }); // req.user is created by isAuth middleware
-
-  console.log(user);
 
   if (!user) return next(createError(404, "User not found"));
 
