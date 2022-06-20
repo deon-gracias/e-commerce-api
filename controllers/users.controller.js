@@ -1,4 +1,5 @@
 const createError = require("http-errors");
+const { generateToken } = require("../lib/auth");
 const User = require("../models/userModel");
 
 async function getAllUsers(req, res, next) {
@@ -12,7 +13,7 @@ async function getUserById(req, res, next) {
 
   if (!user) return next(createError(404, "User id not found"));
 
- delete user.password;
+  delete user.password;
   return res.status(201).send(user);
 }
 
@@ -22,10 +23,25 @@ async function deleteUserById(req, res, next) {
   if (!user) return next(createError(404, "User id not found"));
 
   delete user.password;
-  return res.status(200).json(user);
+  return res.status(200).send(user);
 }
 
-async function signIn(req, res, next) {}
+async function signIn(req, res, next) {
+  const user = await User.findOne({ email: req.body.email });
+
+  if (!user) return next(createError(401, "Invalid User Credentials"));
+
+  console.log(user);
+
+  delete user.password;
+  return res.status(200).send({
+    ...user.toObject({ versionKey: false }),
+    token: generateToken({
+      name: user.name,
+      email: user.email,
+    }),
+  });
+}
 
 async function signUp(req, res, next) {
   const user = await User.findOne({ email: req.body.email });
