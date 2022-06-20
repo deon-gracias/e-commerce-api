@@ -15,12 +15,29 @@ async function getAllUsers(req, res, next) {
  * Get user by id
  */
 async function getUserById(req, res, next) {
+  
   const user = await User.findById(req.params.id);
 
   if (!user) return next(createError(404, "User id not found"));
 
   delete user.password;
   return res.status(201).send(user);
+}
+
+/**
+ * Get user by email
+ */
+async function getUserByEmail(req, res, next) {
+  console.log("Email", req.user);
+
+  const user = await User.findOne({ email: req.user.email }); // req.user is created by isAuth middleware
+
+  console.log(user);
+
+  if (!user) return next(createError(404, "User not found"));
+
+  delete user.password;
+  return res.status(200).send(user);
 }
 
 /**
@@ -39,11 +56,14 @@ async function deleteUser(req, res, next) {
  * Sign In
  */
 async function signIn(req, res, next) {
+  // Check if password is passed in request
+  if (!req.body.password)
+    return next(createError(400, "User Credentials not provided"));
+
   const user = await User.findOne({ email: req.body.email });
 
-  // Check if user is found and password is passed in request
-  if (!user || !req.body.password)
-    return next(createError(400, "User Credentials not provided"));
+  // User not found
+  if (!user) return next(createError(404, "User not found"));
 
   // Compare passwords
   if (!(await user.comparePassword(req.body.password)))
@@ -126,6 +146,7 @@ async function getNewAccessToken(req, res, next) {
 module.exports = {
   getAllUsers,
   getUserById,
+  getUserByEmail,
   signIn,
   signUp,
   deleteUser,
