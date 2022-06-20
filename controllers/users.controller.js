@@ -126,7 +126,7 @@ async function getNewAccessToken(req, res, next) {
   const refreshToken = req.body.refreshToken;
 
   if (!refreshToken || !req.body.email)
-    return next(createError(400, "Insuffiecient credentials provided"));
+    return next(createError(400, "Insufficient credentials provided"));
 
   const user = await User.findOne({ email: req.body.email });
 
