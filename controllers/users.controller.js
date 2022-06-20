@@ -19,6 +19,9 @@ async function getUserById(req, res, next) {
 async function deleteUserById(req, res, next) {
   const user = await User.findByIdAndDelete(req.body._id);
 
+  if (!user) return next(createError(404, "User id not found"));
+
+  delete user.password;
   return res.status(200).json(user);
 }
 
