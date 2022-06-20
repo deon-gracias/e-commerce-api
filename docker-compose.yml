@@ -1,6 +1,25 @@
 version: "3.4"
 
 services:
+  ecommerceapi-test:
+    image: ecommerceapi-test
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_ENV: development
+    ports:
+      - 5001:5000
+    volumes:
+      - .:/usr/src/app
+    command: ["npm", "test"]
+    links:
+      - mongodb-test
+  mongodb-test:
+    image: mongo:latest
+    ports:
+      - 27018:27017
+    command: mongod --quiet --logpath /dev/null
   ecommerceapi:
     image: ecommerceapi
     build:
@@ -20,8 +39,8 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - ecommerceapi-data:/data/db
+      - data:/data/db
     command: mongod --quiet --logpath /dev/null
 
 volumes:
-  ecommerceapi-data:
+  data:
