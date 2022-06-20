@@ -61,6 +61,7 @@ describe("User", () => {
   it("should delete user", async () => {
     const res = await request(app)
       .delete("/users/delete")
+      .set("Authorization", `Bearer ${createdUser.accessToken}`)
       .send(createdUser)
       .expect("Content-Type", /json/);
 
