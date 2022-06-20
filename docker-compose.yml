@@ -8,6 +8,7 @@ services:
       dockerfile: ./Dockerfile
     environment:
       NODE_ENV: development
+      MONGO_URI: mongodb://mongodb-test:27017/e-commerce
     ports:
       - 5001:5000
     volumes:
@@ -27,6 +28,7 @@ services:
       dockerfile: ./Dockerfile
     environment:
       NODE_ENV: development
+      MONGO_URI: mongodb://mongodb:27017/e-commerce
     ports:
       - 5000:5000
     volumes:
