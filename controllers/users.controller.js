@@ -64,9 +64,6 @@ async function signIn(req, res, next) {
   if (!(await user.comparePassword(req.body.password)))
     return next(createError(401, "Invalid user credentials"));
 
-  // Delete password field
-  delete user.password;
-
   // Generate Tokens
   const tokenData = {
       name: user.name,
@@ -77,6 +74,10 @@ async function signIn(req, res, next) {
 
   // Save refresh token in user document
   user.refreshToken = refreshToken;
+  await user.save();
+
+  // Delete password field
+  delete user.password;
 
   return res.status(200).send({
     ...user.toObject({ versionKey: false }),
@@ -132,7 +133,7 @@ async function getNewAccessToken(req, res, next) {
 
   if (!user) return next(createError(404, "User Not Found"));
 
-  if (!user.refreshToken !== refreshToken)
+  if (user.refreshToken !== refreshToken)
     return next(createError(403, "Invalid Refresh Token"));
 
   return res.status(200).send({ accessToken: generateAccessToken(tokenData) });
