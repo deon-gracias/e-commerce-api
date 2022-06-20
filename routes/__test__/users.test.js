@@ -41,22 +41,6 @@ describe("User", () => {
     );
   });
 
-  // Should get created user
-  it("should get user by id", async () => {
-    const res = await request(app)
-      .get(`/users/${createdUser._id}`)
-      .expect("Content-Type", /json/)
-      .expect(201);
-
-    return expect(res.body).toEqual(
-      expect.objectContaining({
-        _id: expect.any(String),
-        name: expect.any(String),
-        email: expect.any(String),
-      })
-    );
-  });
-
   // Should delete user
   it("should delete user", async () => {
     const res = await request(app)
