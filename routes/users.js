@@ -26,7 +26,7 @@ router.post("/signup", signUp);
 // Sign in
 router.post("/signin", signIn);
 
-// Sign in
+// Get new access token
 router.post("/token", getNewAccessToken);
 
 module.exports = router;
