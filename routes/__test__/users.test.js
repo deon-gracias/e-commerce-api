@@ -5,7 +5,7 @@ const { connectToDB, disconnectFromDB } = require("../../lib/db");
 const User = require("../../models/userModel.js");
 
 describe("User", () => {
-  beforeAll(async () => {
+  beforeAll(() => {
     connectToDB();
   });
 
