@@ -6,15 +6,15 @@
     "start": "node ./bin/www",
     "test": "jest --watchAll --verbose",
     "dev": "nodemon ./bin/www",
-    "test:up": "docker-compose up ecommerceapi-test mongodb-test",
+    "test:up": "docker-compose up ecommerceapi-test ecommerceapi-mongodb-test",
     "test:down": "docker-compose down",
-    "test:rm": "docker-compose rm ecommerceapi-test mongodb-test",
-    "dev:up": "docker-compose up ecommerceapi mongodb",
+    "test:rm": "docker-compose rm ecommerceapi-test ecommerceapi-mongodb-test",
+    "dev:up": "docker-compose up ecommerceapi ecommerceapi-mongodb",
     "dev:down": "docker-compose down",
-    "dev:rm": "docker-compose rm ecommerceapi mongodb",
-    "db:dev:up": "docker-compose up mongodb",
-    "db:dev:down": "docker-compose down mongodb",
-    "db:dev:rm": "docker-compose rm mongodb"
+    "dev:rm": "docker-compose rm ecommerceapi ecommerceapi-mongodb",
+    "db:dev:up": "docker-compose up ecommerceapi-mongodb",
+    "db:dev:down": "docker-compose down ecommerceapi-mongodb",
+    "db:dev:rm": "docker-compose rm ecommerceapi-mongodb"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",

@@ -1,6 +1,7 @@
 version: "3.4"
 
 services:
+  # Test API
   ecommerceapi-test:
     image: ecommerceapi-test
     build:
@@ -15,12 +16,14 @@ services:
       - .:/usr/src/app
     command: ["npm", "test"]
     links:
-      - mongodb-test
-  mongodb-test:
+      - ecommerceapi-mongodb-test
+  # Test MongoDB
+  ecommerceapi-mongodb-test:
     image: mongo:latest
     ports:
       - 27018:27017
     command: mongod --quiet --logpath /dev/null
+  # Dev API
   ecommerceapi:
     image: ecommerceapi
     build:
@@ -35,8 +38,9 @@ services:
       - .:/usr/src/app
     command: ["npm", "run", "dev"]
     links:
-      - mongodb
-  mongodb:
+      - ecommerceapi-mongodb
+  # Dev MongoDB
+  ecommerceapi-mongodb:
     image: mongo:latest
     ports:
       - 27017:27017
