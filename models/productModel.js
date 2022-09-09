@@ -1,26 +1,39 @@
-
 const { Schema, model } = require("mongoose");
-const validator = require("validator");
+
+const variantSchema = new Schema({
+  name: { type: String, required: true },
+  price: { type: Number, required: true },
+  description: { type: String, default: "" },
+});
+
+const reviewSchema = new Schema(
+  {
+    rating: { type: Number, required: true },
+    comment: { type: String },
+  },
+  { timestamps: true }
+);
 
 const productSchema = new Schema(
-    {
-        name: { type: String, required: true },
-        email: {
-            type: String,
-            required: true,
-            unique: [true, "Email address already exists"],
-            validate: [validator.isEmail, "Enter a valid email address."],
-        },
-        password: {
-            type: String,
-            required: true,
-            minLength: [4, "Password should be at least four characters"],
-        },
-        refreshToken: {
-            type: String,
-        },
+  {
+    name: { type: String, required: true },
+    description: { type: String, default: "" },
+    price: {
+      type: Number,
+      required: true,
     },
-    { timestamps: true }
+    images: {
+      type: [String],
+    },
+    category: { type: String, required: true },
+    quantity: {
+      type: Number,
+      required: true,
+    },
+    variants: { type: [variantSchema], default: [] },
+    reviews: { type: [reviewSchema], default: [] },
+  },
+  { timestamps: true }
 );
 
 const Product = model("Product", productSchema);
