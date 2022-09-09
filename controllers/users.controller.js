@@ -2,7 +2,7 @@ const createError = require("http-errors");
 const { generateAccessToken, generateRefreshToken } = require("../lib/auth");
 const User = require("../models/userModel");
 
-/**
+/*
  * Get all users
  */
 async function getAllUsers(req, res, next) {
@@ -11,7 +11,7 @@ async function getAllUsers(req, res, next) {
   return res.status(200).json(users);
 }
 
-/**
+/*
  * Get user by id
  */
 async function getUserById(req, res, next) {
@@ -23,7 +23,7 @@ async function getUserById(req, res, next) {
   return res.status(201).send(user);
 }
 
-/**
+/*
  * Get user by email
  */
 async function getUserByEmail(req, res, next) {
@@ -35,7 +35,7 @@ async function getUserByEmail(req, res, next) {
   return res.status(200).send(user);
 }
 
-/**
+/*
  * Delete user by email
  */
 async function deleteUser(req, res, next) {
@@ -47,7 +47,7 @@ async function deleteUser(req, res, next) {
   return res.status(200).send(user);
 }
 
-/**
+/*
  * Sign In
  */
 async function signIn(req, res, next) {
@@ -86,7 +86,7 @@ async function signIn(req, res, next) {
   });
 }
 
-/**
+/*
  * Sign Up
  */
 async function signUp(req, res, next) {
@@ -120,7 +120,7 @@ async function signUp(req, res, next) {
   });
 }
 
-/**
+/*
  * Sign Out
  */
 async function signOut(req, res, next) {
@@ -134,7 +134,7 @@ async function signOut(req, res, next) {
   return res.status(200).send({ message: "Successfully signed out" });
 }
 
-/**
+/*
  * Regenerate Access Token
  */
 async function getNewAccessToken(req, res, next) {
